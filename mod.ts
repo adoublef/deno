@@ -1,6 +1,5 @@
 export * from "./test/mod.ts";
 export * from "./fp/mod.ts";
-export * from "./fs/mod.ts";
 export * from "./macro/mod.ts";
 export * from "./net/mod.ts";
 export * from "./conditional/mod.ts";

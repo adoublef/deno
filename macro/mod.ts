@@ -1,4 +1,4 @@
-interface Macro extends Function { }
+type Macro = Function;
 
 export const panic: Macro = new Function("message", "throw new Error(message)");
 
