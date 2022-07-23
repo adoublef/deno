@@ -1,0 +1,6 @@
+{
+    "imports": {
+        "testing": "https://deno.land/std@0.110.0/testing/asserts.ts",
+        "net/": "./net/"
+    }
+}

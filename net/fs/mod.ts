@@ -1,11 +1,11 @@
-import { isError } from "../../conditional/mod.ts";
-import {
+import { isError } from "../../conditional/mod";
+import type {
     BiConsumerAsync,
     BiTransform,
     result,
     Transform,
-} from "../../fp/mod.ts";
-import { panic } from "../../macro/mod.ts";
+} from "../../fp/mod";
+import { panic } from "../../macro/mod";
 import {
     handleNotFound,
     Handler,
@@ -13,7 +13,7 @@ import {
     HandlerFunc,
     htmlResponse,
     RequestContext,
-} from "../http/mod.ts";
+} from "../http/mod";
 
 const serveFile: Transform<string, HandlerFunc> = pathname => async ({ respondWith }) => {
     const file = await Deno.readFile(pathname);

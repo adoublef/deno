@@ -19,12 +19,8 @@ const shouldRedirect: BiPredicate<Pick<URL, "href">, MuxEntryCollection> = (
     return false;
 };
 
-export const redirectToPathSlash: BiTransform<
-    URL,
-    MuxEntryCollection,
-    URL | undefined
-> = (url, arr) =>
-        shouldRedirect(url, arr) ? new URL(url.href + "/") : undefined;
+export const redirectToPathSlash: BiTransform<URL, MuxEntryCollection, URL | undefined> = (url, arr) =>
+    shouldRedirect(url, arr) ? new URL(url.href + "/") : undefined;
 
 export const handleRedirect: Transform<Pick<URL, "href">, HandlerFunc> = (
     { href },

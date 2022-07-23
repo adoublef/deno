@@ -1,28 +1,10 @@
 import { pushSorted, setMap } from "../../collection/mod.ts";
 import { isMethod } from "../../conditional/mod.ts";
-import {
-    BiConsumer,
-    BiTransform,
-    Consumer,
-    ConsumerAsync,
-    Transform,
-} from "../../fp/mod.ts";
+import { BiConsumer, BiTransform, Consumer, ConsumerAsync, Transform } from "../../fp/mod.ts";
 import { panic, todo } from "../../macro/mod.ts";
 import { dispatchCustom, RequestContext, ServerInit } from "./context.ts";
-import {
-    Handle,
-    HandleFunc,
-    handleMethodNotAllowed,
-    handleNotFound,
-    Handler,
-    HandlerFunc,
-} from "./handler.ts";
-import {
-    MuxEntry,
-    muxEntry,
-    MuxEntryCollection,
-    MuxEntryInit,
-} from "./muxEntry.ts";
+import { Handle, HandleFunc, handleMethodNotAllowed, handleNotFound, Handler, HandlerFunc } from "./handler.ts";
+import { MuxEntry, muxEntry, MuxEntryCollection, MuxEntryInit } from "./muxEntry.ts";
 import { handleRedirect, redirectToPathSlash } from "./redirect.ts";
 import { upgradeWebSocket } from "./request.ts";
 
@@ -143,15 +125,11 @@ export class Server extends EventTarget {
     }
 
     async listenAndServe() {
-        dispatchCustom({
-            obj: this,
-            type: "listen",
-            init: { detail: this.#options },
-        });
+        dispatchCustom({ obj: this, type: "listen", init: { detail: this.#options } });
         await listenAndServe(this.#options);
     }
 
     async listenAndServeTls() {
-        todo();
+        await todo();
     }
 }
