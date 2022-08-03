@@ -1,11 +1,8 @@
 import { BiPredicate, BiTransform, Transform } from "../../fp/mod.ts";
 import { HandlerFunc } from "./handler.ts";
-import { MuxEntry, MuxEntryCollection } from "./muxEntry.ts";
+import { MuxEntryCollection } from "./muxEntry.ts";
 
-const shouldRedirect: BiPredicate<Pick<URL, "href">, MuxEntryCollection> = (
-    { href },
-    map,
-) => {
+const shouldRedirect: BiPredicate<Pick<URL, "href">, MuxEntryCollection> = ({ href }, map) => {
     // using a wildcard, I need to be careful with my pattern names
     // if "/*" & "/foo/" registered, regardless of order
     // "/*" will always be called. however "/" wont be
@@ -22,6 +19,6 @@ const shouldRedirect: BiPredicate<Pick<URL, "href">, MuxEntryCollection> = (
 export const redirectToPathSlash: BiTransform<URL, MuxEntryCollection, URL | undefined> = (url, arr) =>
     shouldRedirect(url, arr) ? new URL(url.href + "/") : undefined;
 
-export const handleRedirect: Transform<Pick<URL, "href">, HandlerFunc> = (
-    { href },
-) => async (e) => await e.respondWith(Response.redirect(href, 302));
+export const handleRedirect: Transform<Pick<URL, "href">, HandlerFunc> = ({ href }) => {
+    return async (e) => await e.respondWith(Response.redirect(href, 302));
+};

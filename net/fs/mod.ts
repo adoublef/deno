@@ -1,24 +1,12 @@
-import { isError } from "../../conditional/mod";
-import type {
-    BiConsumerAsync,
-    BiTransform,
-    result,
-    Transform,
-} from "../../fp/mod";
-import { panic } from "../../macro/mod";
-import {
-    handleNotFound,
-    Handler,
-    handleRedirect,
-    HandlerFunc,
-    htmlResponse,
-    RequestContext,
-} from "../http/mod";
+import { isError } from "../../conditional/mod.ts";
+import { BiConsumerAsync, BiTransform, result, Transform, } from "../../fp/mod.ts";
+import { panic } from "../../macro/mod.ts";
+import { handleNotFound, Handler, handleRedirect, HandlerFunc, htmlResponse, RequestContext, } from "../http/mod.ts";
 
 const serveFile: Transform<string, HandlerFunc> = pathname => async ({ respondWith }) => {
     const file = await Deno.readFile(pathname);
 
-    let contentType: "application/javascript" | "text/html" | "text/plain";
+    let contentType: "application/javascript" | "text/html" | "text/plain.ts";
     switch (true) {
         case pathname.endsWith(".js"):
         case pathname.endsWith(".ts"):
@@ -28,7 +16,7 @@ const serveFile: Transform<string, HandlerFunc> = pathname => async ({ respondWi
             contentType = "text/html";
             break;
         default:
-            contentType = "text/plain";
+            contentType = "text/plain.ts";
     }
 
     return await respondWith(new Response(file, { headers: { "Content-Type": contentType } }));
@@ -59,14 +47,17 @@ interface FileServerInit {
     url: URL;
 }
 
-const fileServerOptions: BiTransform<string, Pick<Request, "url">, FileServerInit> = (filepath, { url }) => ({ filepath, url: new URL(url) });
+const fileServerOptions: BiTransform<string, Pick<Request, "url">, FileServerInit> = (filepath, { url }) => {
+    console.log(url);
+    return ({ filepath, url: new URL(url) });
+};
 
 // TODO: change to absolute path not relative
 export const stripPrefix: BiTransform<string, Handler, Handler> = (prefix, handler) => (new class implements Handler {
     async serveHttp(ctx: RequestContext, { href, pathname } = new URL(ctx.request.url)): Promise<void> {
-        Object.defineProperty(ctx.request, "url", {
-            value: href.replace(pathname, pathname.slice(prefix.length - 1))
-        });
+        const value = href.replace(pathname, pathname.slice(prefix.length));
+
+        Object.defineProperty(ctx.request, "url", { value });
         return await handler.serveHttp(ctx);
     }
 }());

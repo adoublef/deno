@@ -1,7 +1,7 @@
 import { Transform } from "../../fp/mod.ts";
 import { Handler, HandlerFunc, handlerFunc } from "./handler.ts";
 
-type Method =
+export type Method =
     | "GET"
     | "POST"
     | "PUT"
@@ -23,7 +23,7 @@ export interface MuxEntryInit extends Pick<MuxEntry, "method"> {
     handler: HandlerFunc | Handler;
 }
 
-export const muxEntry: Transform<MuxEntryInit, MuxEntry> = ({ handler, pattern, method },) => ({
+export const muxEntry: Transform<MuxEntryInit, MuxEntry> = ({ handler, pattern, method }) => ({
     handler: "serveHttp" in handler ? handler : handlerFunc(handler),
     pattern: new URLPattern({ pathname: pattern }),
     method,

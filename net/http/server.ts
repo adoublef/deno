@@ -31,9 +31,7 @@ const _handler: BiTransform<Pick<RequestContext, "request">, MuxEntryCollection,
     if (!isMethod(method)) return panic("server: illigal method");
 
     const u = new URL(url), v = redirectToPathSlash(u, map);
-    return v
-        ? muxEntry({ handler: handleRedirect(v), pattern: v.pathname, method })
-        : match({ method, map }, u);
+    return v ? muxEntry({ handler: handleRedirect(v), pattern: v.pathname, method }) : match({ method, map }, u);
 };
 
 const handler: Transform<RequestContext, MuxEntry> = ctx => _handler(ctx, globalMap);
@@ -79,7 +77,7 @@ const serve: BiConsumer<Deno.Conn, Handler> = async (conn, handler) => {
 export class ServeMux implements Handler {
     #list: MuxEntryCollection = new Map();
 
-    async serveHttp(ctx: RequestContext, { handler: h } = this.#handler(ctx),): Promise<void> {
+    async serveHttp(ctx: RequestContext, { handler: h } = this.#handler(ctx)): Promise<void> {
         return await h.serveHttp(ctx);
     }
 
@@ -129,7 +127,5 @@ export class Server extends EventTarget {
         await listenAndServe(this.#options);
     }
 
-    async listenAndServeTls() {
-        await todo();
-    }
+    async listenAndServeTls() { await todo(); }
 }

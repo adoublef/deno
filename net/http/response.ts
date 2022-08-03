@@ -1,3 +1,5 @@
+import { Transform } from "../../fp/mod.ts";
+
 export type ContentType =
     | "text/html"
     | "application/json";
@@ -140,44 +142,18 @@ export type HttpResponse<T extends keyof Status> = {
 
 export const ok: HttpResponse<200> = { status: 200, statusText: "OK" };
 
-// TODO: renaem these funtion
-export const fileResponse = <
-    K extends keyof Status,
-    V extends Status[K],
-    T extends ContentType,
-    >(
-        { status, statusText, contentType }: {
-            contentType: T;
-            status: K;
-            statusText: V;
-        },
-) => (body: string) =>
-        new Response(body, {
-            headers: { "content-type": contentType },
-            status,
-            statusText,
-        });
+type FileResponse<T extends keyof Status> = { contentType: ContentType; status: T; statusText: Status[T]; };
 
-export const res = {
-    html: fileResponse({
-        status: 200,
-        statusText: "OK",
-        contentType: "text/html",
-    }),
-    json: fileResponse({
-        status: 200,
-        statusText: "OK",
-        contentType: "application/json",
-    }),
+export const fileResponse = <T extends keyof Status>({ status, statusText, contentType }: FileResponse<T>): Transform<string, Response> => body => {
+    const responseInit = { headers: { "content-type": contentType }, status, statusText, };
+    return new Response(body, responseInit);
 };
 
-export const htmlResponse = fileResponse({
-    status: 200,
-    statusText: "OK",
-    contentType: "text/html",
-});
-export const jsonResponse = fileResponse({
-    status: 200,
-    statusText: "OK",
-    contentType: "application/json",
-});
+export const htmlResponse = fileResponse({ status: 200, statusText: "OK", contentType: "text/html" });
+
+export const jsonResponse = fileResponse({ status: 200, statusText: "OK", contentType: "application/json" });
+
+export const res = {
+    html: htmlResponse,
+    json: jsonResponse,
+};

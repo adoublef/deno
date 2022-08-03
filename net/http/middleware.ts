@@ -1,6 +1,7 @@
 import { ConsumerAsync, Transform } from "../../fp/mod.ts";
 import { RequestContext } from "./context.ts";
 import { handleMethodNotAllowed, HandlerFunc } from "./handler.ts";
+import { Method } from "./muxEntry.ts";
 
 export type Middleware = Transform<HandlerFunc, HandlerFunc>;
 
@@ -8,10 +9,11 @@ type Logger = Transform<ConsumerAsync<Pick<RequestContext, "request">>, Middlewa
 
 export const httpLogger: Logger = log => hf => async e => {
     await log(e);
+
     return await hf(e);
 };
 
-export const allowedMethods: Transform<Array<"GET" | "POST" | "PUT" | "DELETE"> | null, Middleware> = method => hf => async e => {
+export const allowedMethods: Transform<Array<Method> | null, Middleware> = method => hf => async e => {
     if (!method || method.some((m) => m === e.request.method)) return await hf(e);
 
     return await handleMethodNotAllowed(e);
