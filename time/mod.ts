@@ -1,5 +1,5 @@
-import { average } from "../collection/mod.ts";
-import { Supplier } from "../fp/mod.ts";
+import { average } from "collection/mod.ts";
+import { Supplier } from "fp/mod.ts";
 
 export const { time, timeEnd, timeLog } = console;
 
@@ -11,12 +11,12 @@ export const consoleTimer = (
 ): {
     startTimer: Supplier<void>;
     endTimer: Supplier<void>;
-    logTimer: (...data: any[]) => void;
+    logTimer: (...data: unknown[]) => void;
 } => {
     return {
         startTimer: () => time(label),
         endTimer: () => timeEnd(label),
-        logTimer: (...data: any[]) => timeLog(label, ...data),
+        logTimer: (...data: unknown[]) => timeLog(label, ...data),
     };
 };
 
@@ -25,7 +25,7 @@ export const timer = (
     fn: () => void,
 ) => {
     let index = 0;
-    let arr = [];
+    const arr = [];
     while (index < quantity) {
         const start = Date.now();
         fn();

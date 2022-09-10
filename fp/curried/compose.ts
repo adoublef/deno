@@ -1,6 +1,6 @@
-import { Transform } from "../utils.ts";
+import { Transform } from "fp";
 
-export const pipe = <T extends any[], R>(
+export const pipe = <T extends unknown[], R>(
     fn1: (...args: T) => R,
     ...fns: Array<(a: R) => R>
 ) => {

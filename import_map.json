@@ -1,6 +1,11 @@
 {
     "imports": {
-        "testing": "https://deno.land/std@0.110.0/testing/asserts.ts",
-        "net/": "./net/"
+        "collection/": "./collection/",
+        "crypto": "./crypto/mod.ts",
+        "crypto/": "./crypto/",
+        "fp": "./fp/mod.ts",
+        "fp/": "./fp/",
+        "macro": "./macro/mod.ts",
+        "testing": "https://deno.land/std@0.155.0/testing/asserts.ts"
     }
 }
