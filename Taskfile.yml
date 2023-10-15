@@ -1,0 +1,19 @@
+version: 3
+
+tasks:
+  default:
+    desc: List all available commands
+    cmds:
+      - task --list-all
+
+  cache:
+    desc: Cache Deno dependencies 
+    cmds:
+      - deno task cache
+
+  www:
+    desc: Run the development server locally
+    deps:
+      - cache
+    cmds:
+      - deno task www
