@@ -22,4 +22,4 @@ export type {
 import Database from "libsql";
 export { Database };
 /* std */
-export { encodeBase64 as encode } from "$std/encoding/base64.ts";
+export { encodeBase64 as encode } from "https://deno.land/std@0.203.0/encoding/base64.ts";
