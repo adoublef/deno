@@ -10,8 +10,8 @@
     "imports": {
         "~/deps.ts": "./deps.ts",
         "$libsql/":"https://esm.sh/v133/@libsql/client@0.3.5/lib-esm/",
-        "$hono/": "https://deno.land/x/hono@v3.7.3/",
-        "hono/jsx/jsx-runtime": "https://deno.land/x/hono@v3.7.3/jsx/jsx-runtime.ts",
+        "$hono/": "https://deno.land/x/hono@v3.7.6/",
+        "hono/jsx/jsx-runtime": "https://deno.land/x/hono@v3.7.6/jsx/jsx-runtime.ts",
         "$std/": "https://deno.land/std@0.203.0/"
       }
 }
