@@ -19,7 +19,7 @@ export {
 export type {
     ExpandedConfig
 } from "$libsql/config.d.ts";
-import Database from "libsql";
+import Database from "npm:libsql@0.1.29";
 export { Database };
 /* std */
 export { encodeBase64 as encode } from "https://deno.land/std@0.203.0/encoding/base64.ts";
