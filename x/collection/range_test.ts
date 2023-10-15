@@ -1,4 +1,3 @@
-import { } from "../test/mod.ts";
 import { range } from "./range.ts";
 
 Deno.test("range", () => {

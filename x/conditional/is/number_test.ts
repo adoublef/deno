@@ -1,4 +1,4 @@
-import { assertEquals } from "../../test/mod.ts";
+import { assertEquals } from "$std/assert/mod.ts";
 
 import {
     isGreaterThan,

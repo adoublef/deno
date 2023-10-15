@@ -1,7 +1,7 @@
-import { assertEquals } from "../../test/mod.ts";
+import { assertEquals } from "$std/assert/mod.ts";
 
 import { isGreaterThan, isLessThan } from "../../conditional/mod.ts";
-import { pushSorted } from "./pushSorted.ts";
+import { pushSorted } from "./push_sorted.ts";
 
 Deno.test("sort number array", () => {
     let arr: number[] = [];
