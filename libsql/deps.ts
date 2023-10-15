@@ -1,5 +1,5 @@
 /* libsql */
-export { LibsqlError } from "$libsql/api";
+export { LibsqlError } from "$libsql/api.js";
 export type {
     Config
     , Client
@@ -15,11 +15,11 @@ export type {
 } from "$libsql/api.d.ts";
 export {
     expandConfig
-} from "$libsql/config";
+} from "$libsql/config.js";
 export type {
     ExpandedConfig
 } from "$libsql/config.d.ts";
 import Database from "npm:libsql@0.1.29";
 export { Database };
 /* std */
-export { encodeBase64 as encode } from "https://deno.land/std@0.203.0/encoding/base64.ts";
+export { encodeBase64 as encode } from "$std/encoding/base64.ts";
