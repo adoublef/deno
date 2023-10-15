@@ -1,7 +1,6 @@
-import { assertEquals } from "testing";
-
-import { compose, pipe } from "fp/curried/compose.ts";
-import { Transform } from "fp/utils.ts";
+import { assertEquals } from "$std/assert/mod.ts";
+import { compose, pipe } from "./compose.ts";
+import { Transform } from "../utils.ts";
 
 Deno.test("compose & pipe", () => {
     const fn1: Transform<string, string> = (value) => `fn1(${value})`;

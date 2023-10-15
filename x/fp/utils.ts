@@ -40,4 +40,4 @@ export type Option<T extends unknown> = Either<T, undefined>;
 
 export type State<T extends unknown> = Option<(args: T) => State<T>>;
 
-export const identity = <T extends unknown, R extends unknown>(v: T) => v as R;
+export const identity = <T extends unknown, R extends unknown>(v: T) => v as unknown as R;

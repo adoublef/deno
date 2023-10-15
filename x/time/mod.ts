@@ -1,5 +1,5 @@
-import { average } from "collection/mod.ts";
-import { Supplier } from "fp/mod.ts";
+import { average } from "../collection/mod.ts";
+import { Supplier } from "../fp/mod.ts";
 
 export const { time, timeEnd, timeLog } = console;
 

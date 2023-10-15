@@ -8,13 +8,6 @@
         "jsxImportSource": "hono/jsx"
     },
     "imports": {
-        "collection/": "./collection/",
-        "crypto": "./crypto/mod.ts",
-        "crypto/": "./crypto/",
-        "fp": "./fp/mod.ts",
-        "fp/": "./fp/",
-        "macro": "./macro/mod.ts",
-        "testing": "https://deno.land/std@0.155.0/testing/asserts.ts",
         "~/deps.ts": "./deps.ts",
         "$hono/": "https://deno.land/x/hono@v3.7.3/",
         "hono/jsx/jsx-runtime": "https://deno.land/x/hono@v3.7.3/jsx/jsx-runtime.ts",
