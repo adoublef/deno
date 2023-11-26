@@ -13,5 +13,8 @@ export function Show<T>({
 type ShowProps<T> = {
     when?: T; // | null | false;
     fallback?: HtmlEscapedString | Promise<HtmlEscapedString>;
-    children: HtmlEscapedString | Promise<HtmlEscapedString> | ((item: T) => HtmlEscapedString | Promise<HtmlEscapedString>);
+    children:
+        | HtmlEscapedString
+        | Promise<HtmlEscapedString>
+        | ((item: T) => HtmlEscapedString | Promise<HtmlEscapedString>);
 };
