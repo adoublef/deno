@@ -1,3 +1,6 @@
+/** @jsx jsx */
+/** @jsxFrag Fragment */
+import { jsx } from "./deps.ts";
 import { assertEquals } from "$std/assert/mod.ts";
 import { For } from "./for.tsx";
 
