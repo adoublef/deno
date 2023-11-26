@@ -1,3 +1,6 @@
+/** @jsx jsx */
+/** @jsxFrag Fragment */
+import { jsx, Fragment } from "./deps.ts";
 import { html, HtmlEscapedString } from "./deps.ts";
 
 /** [TODO](https://www.solidjs.com/docs/latest/api#for) */
@@ -6,8 +9,8 @@ export const For = <T,>({
     fallback,
     children,
 }: ForProps<T>): HtmlEscapedString | Promise<HtmlEscapedString> => {
-    if (!each.length) return html`${fallback}`;
-    return html`${each.map(children)}`;
+    if (!each.length) return <>{fallback}</>;
+    return <>{each.map(children)}</>;
 };
 
 export type ForProps<T> = {

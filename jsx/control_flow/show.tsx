@@ -1,3 +1,6 @@
+/** @jsx jsx */
+/** @jsxFrag Fragment */
+import { jsx, Fragment } from "./deps.ts";
 import { html, HtmlEscapedString } from "./deps.ts";
 
 /** [TODO](https://www.solidjs.com/docs/latest/api#show) */
@@ -6,8 +9,8 @@ export function Show<T>({
     fallback,
     children,
 }: ShowProps<T>): HtmlEscapedString | Promise<HtmlEscapedString> {
-    if (!when) return html`${fallback}`;
-    return html`${typeof children === "function" ? children(when) : children}`;
+    if (!when) return <>{fallback}</>;
+    return <>{typeof children === "function" ? children(when) : children}</>;
 }
 
 type ShowProps<T> = {
