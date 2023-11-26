@@ -15,6 +15,6 @@ export type ForProps<T> = {
     fallback?: HtmlEscapedString | Promise<HtmlEscapedString>;
     children: (
         item: T,
-        index: number
+        index: number,
     ) => HtmlEscapedString | Promise<HtmlEscapedString>;
 };
