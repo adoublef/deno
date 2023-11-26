@@ -1,23 +1,23 @@
 // libsql
 export { LibsqlError } from "https://esm.sh/v133/@libsql/client@0.3.5/lib-esm/api.js";
 export type {
-    Config
-    , Client
-    , IntMode
-    , InStatement
-    , InArgs
-    , InValue
-    , ResultSet
-    , Row
-    , Transaction
-    , TransactionMode
-    , Value
+    Client,
+    Config,
+    InArgs,
+    InStatement,
+    IntMode,
+    InValue,
+    ResultSet,
+    Row,
+    Transaction,
+    TransactionMode,
+    Value,
 } from "https://esm.sh/v133/@libsql/client@0.3.5/lib-esm/api.d.ts";
 export {
-    expandConfig
+    expandConfig,
 } from "https://esm.sh/v133/@libsql/client@0.3.5/lib-esm/config.js";
 export type {
-    ExpandedConfig
+    ExpandedConfig,
 } from "https://esm.sh/v133/@libsql/client@0.3.5/lib-esm/config.d.ts";
 import Database from "npm:libsql@0.1.29";
 export { Database };

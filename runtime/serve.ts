@@ -1,4 +1,7 @@
-export async function serve(handler: { fetch: Deno.ServeHandler; }, opts?: Deno.ServeOptions): Promise<void> {
+export async function serve(
+    handler: { fetch: Deno.ServeHandler },
+    opts?: Deno.ServeOptions,
+): Promise<void> {
     if (opts?.port) {
         await bootServer(handler.fetch, opts);
     } else {
@@ -28,6 +31,9 @@ export async function serve(handler: { fetch: Deno.ServeHandler; }, opts?: Deno.
     }
 }
 
-async function bootServer(handler: Deno.ServeHandler, opts: Deno.ServeOptions): Promise<void> {
+async function bootServer(
+    handler: Deno.ServeHandler,
+    opts: Deno.ServeOptions,
+): Promise<void> {
     return await Deno.serve(opts, handler).finished;
 }
