@@ -1,1 +1,1 @@
-export * from "./lib/range.ts"
+export * from "./lib/range.ts";

@@ -1,28 +1,28 @@
 /**
  * TODO -- Learn how easy it be to migrate to the official LibSql engine
- * 
+ *
  * [GitHub Reference](https://github.com/libsql/libsql-client-ts/blob/main/src/sqlite3.ts#L1)
  */
 import {
-    Database
-    , Client
-    , Config
-    , encode
-    , ExpandedConfig
-    , InStatement
-    , InValue
-    , IntMode
-    , LibsqlError
-    , ResultSet
-    , Row
-    , Transaction
-    , TransactionMode
-    , Value
-    , expandConfig
+    Client,
+    Config,
+    Database,
+    encode,
+    expandConfig,
+    ExpandedConfig,
+    InStatement,
+    IntMode,
+    InValue,
+    LibsqlError,
+    ResultSet,
+    Row,
+    Transaction,
+    TransactionMode,
+    Value,
 } from "./deps.ts";
 
-
-const supportedUrlLink = "https://github.com/libsql/libsql-client-ts#supported-urls";
+const supportedUrlLink =
+    "https://github.com/libsql/libsql-client-ts#supported-urls";
 
 export function createClient(config: Config): Client {
     return _createClient(expandConfig(config, true));
@@ -32,8 +32,10 @@ export function createClient(config: Config): Client {
 export function _createClient(config: ExpandedConfig): Client {
     if (config.scheme !== "file") {
         throw new LibsqlError(
-            `URL scheme ${JSON.stringify(config.scheme + ":")} is not supported by the local sqlite3 client. ` +
-            `For more information, please read ${supportedUrlLink}`,
+            `URL scheme ${
+                JSON.stringify(config.scheme + ":")
+            } is not supported by the local sqlite3 client. ` +
+                `For more information, please read ${supportedUrlLink}`,
             "URL_SCHEME_NOT_SUPPORTED",
         );
     }
@@ -43,10 +45,12 @@ export function _createClient(config: ExpandedConfig): Client {
         const host = authority.host.toLowerCase();
         if (host !== "" && host !== "localhost") {
             throw new LibsqlError(
-                `Invalid host in file URL: ${JSON.stringify(authority.host)}. ` +
-                'A "file:" URL with an absolute path should start with one slash ("file:/absolute/path.db") ' +
-                'or with three slashes ("file:///absolute/path.db"). ' +
-                `For more information, please read ${supportedUrlLink}`,
+                `Invalid host in file URL: ${
+                    JSON.stringify(authority.host)
+                }. ` +
+                    'A "file:" URL with an absolute path should start with one slash ("file:/absolute/path.db") ' +
+                    'or with three slashes ("file:///absolute/path.db"). ' +
+                    `For more information, please read ${supportedUrlLink}`,
                 "URL_INVALID",
             );
         }
@@ -55,7 +59,10 @@ export function _createClient(config: ExpandedConfig): Client {
             throw new LibsqlError("File URL cannot have a port", "URL_INVALID");
         }
         if (authority.userinfo !== undefined) {
-            throw new LibsqlError("File URL cannot have username and password", "URL_INVALID");
+            throw new LibsqlError(
+                "File URL cannot have username and password",
+                "URL_INVALID",
+            );
         }
     }
 
@@ -63,7 +70,7 @@ export function _createClient(config: ExpandedConfig): Client {
     const options: Database.Options = {
         /**
          * NOTE -- These don't look to be used *yet*
-         * 
+         *
          * [GitHub Reference](https://github.com/libsql/libsql-client-ts/blob/main/src/sqlite3.ts#L51-L54)
          */
         // authToken: config.authToken,
@@ -72,7 +79,11 @@ export function _createClient(config: ExpandedConfig): Client {
 
     const db = new Database(path, options);
     try {
-        executeStmt(db, "SELECT 1 AS checkThatTheDatabaseCanBeOpened", config.intMode);
+        executeStmt(
+            db,
+            "SELECT 1 AS checkThatTheDatabaseCanBeOpened",
+            config.intMode,
+        );
     } finally {
         db.close();
     }
@@ -106,7 +117,10 @@ export class Sqlite3Client implements Client {
         }
     }
 
-    async batch(stmts: Array<InStatement>, mode: TransactionMode = "deferred"): Promise<Array<ResultSet>> {
+    async batch(
+        stmts: Array<InStatement>,
+        mode: TransactionMode = "deferred",
+    ): Promise<Array<ResultSet>> {
         this.#checkNotClosed();
         const db = new Database(this.#path, this.#options);
         try {
@@ -114,10 +128,13 @@ export class Sqlite3Client implements Client {
             const resultSets = await Promise.all(stmts.map(
                 (stmt) => {
                     if (!db.transaction) {
-                        throw new LibsqlError("The transaction has been rolled back", "TRANSACTION_CLOSED");
+                        throw new LibsqlError(
+                            "The transaction has been rolled back",
+                            "TRANSACTION_CLOSED",
+                        );
                     }
                     return executeStmt(db, stmt, this.#intMode);
-                }
+                },
             ));
             executeStmt(db, "COMMIT", this.#intMode);
             return resultSets;
@@ -228,13 +245,20 @@ export class Sqlite3Transaction implements Transaction {
 
     #checkNotClosed(): void {
         if (!this.#database.open || !this.#database.inTransaction) {
-            throw new LibsqlError("The transaction is closed", "TRANSACTION_CLOSED");
+            throw new LibsqlError(
+                "The transaction is closed",
+                "TRANSACTION_CLOSED",
+            );
         }
     }
 }
 
 // deno-lint-ignore require-await
-async function executeStmt(db: Database.Database, stmt: InStatement, intMode: IntMode): Promise<ResultSet> {
+async function executeStmt(
+    db: Database.Database,
+    stmt: InStatement,
+    intMode: IntMode,
+): Promise<ResultSet> {
     let sql: string;
     let args: Array<unknown> | Record<string, unknown>;
     if (typeof stmt === "string") {
@@ -247,8 +271,10 @@ async function executeStmt(db: Database.Database, stmt: InStatement, intMode: In
         } else {
             args = {};
             for (const name in stmt.args) {
-                const argName = (name[0] === "@" || name[0] === "$" || name[0] === ":")
-                    ? name.substring(1) : name;
+                const argName =
+                    (name[0] === "@" || name[0] === "$" || name[0] === ":")
+                        ? name.substring(1)
+                        : name;
                 args[argName] = valueToSql(stmt.args[name]);
             }
         }
@@ -267,15 +293,25 @@ async function executeStmt(db: Database.Database, stmt: InStatement, intMode: In
         }
 
         if (returnsData) {
-            const columns = Array.from(sqlStmt.columns().map(col => col.name));
-            const columnTypes = Array.from(sqlStmt.columns().map(col => col.type ?? ""));
+            const columns = Array.from(
+                sqlStmt.columns().map((col) => col.name),
+            );
+            const columnTypes = Array.from(
+                sqlStmt.columns().map((col) => col.type ?? ""),
+            );
             const rows = sqlStmt.all(args).map((sqlRow) => {
                 return rowFromSql(sqlRow as Array<unknown>, columns, intMode);
             });
             // TODO: can we get this info from better-sqlite3?
             const rowsAffected = 0;
             const lastInsertRowid = undefined;
-            return new ResultSetImpl(columns, columnTypes, rows, rowsAffected, lastInsertRowid);
+            return new ResultSetImpl(
+                columns,
+                columnTypes,
+                rows,
+                rowsAffected,
+                lastInsertRowid,
+            );
         } else {
             const info = sqlStmt.run(args);
             const rowsAffected = info.changes;
@@ -295,7 +331,11 @@ function executeMultiple(db: Database.Database, sql: string): void {
     }
 }
 
-function rowFromSql(sqlRow: Array<unknown>, columns: Array<string>, intMode: IntMode): Row {
+function rowFromSql(
+    sqlRow: Array<unknown>,
+    columns: Array<string>,
+    intMode: IntMode,
+): Row {
     const row = {};
     // make sure that the "length" property is not enumerable
     Object.defineProperty(row, "length", { value: sqlRow.length });
@@ -315,7 +355,9 @@ function valueFromSql(sqlValue: unknown, intMode: IntMode): Value {
     if (typeof sqlValue === "bigint") {
         if (intMode === "number") {
             if (sqlValue < minSafeBigint || sqlValue > maxSafeBigint) {
-                throw new RangeError("Received integer which cannot be safely represented as a JavaScript number");
+                throw new RangeError(
+                    "Received integer which cannot be safely represented as a JavaScript number",
+                );
             }
             return Number(sqlValue);
         } else if (intMode === "bigint") {
@@ -325,8 +367,8 @@ function valueFromSql(sqlValue: unknown, intMode: IntMode): Value {
         } else {
             throw new Error("Invalid value for IntMode");
         }
-    } else if ((sqlValue instanceof Uint8Array))/* Buffer does not work */ {
-        return (sqlValue.buffer);
+    } else if ((sqlValue instanceof Uint8Array)) {
+        /* Buffer does not work */ return (sqlValue.buffer);
     }
     return sqlValue as Value;
 }
@@ -337,12 +379,16 @@ const maxSafeBigint = 9007199254740991n;
 function valueToSql(value: InValue): unknown {
     if (typeof value === "number") {
         if (!Number.isFinite(value)) {
-            throw new RangeError("Only finite numbers (not Infinity or NaN) can be passed as arguments");
+            throw new RangeError(
+                "Only finite numbers (not Infinity or NaN) can be passed as arguments",
+            );
         }
         return value;
     } else if (typeof value === "bigint") {
         if (value < minInteger || value > maxInteger) {
-            throw new RangeError("bigint is too large to be represented as a 64-bit integer and passed as argument");
+            throw new RangeError(
+                "bigint is too large to be represented as a 64-bit integer and passed as argument",
+            );
         }
         return value;
     } else if (typeof value === "boolean") {
@@ -352,7 +398,9 @@ function valueToSql(value: InValue): unknown {
     } else if (value instanceof Date) {
         return value.valueOf();
     } else if (value === undefined) {
-        throw new TypeError("undefined cannot be passed as argument to the database");
+        throw new TypeError(
+            "undefined cannot be passed as argument to the database",
+        );
     } else {
         return value;
     }
@@ -376,7 +424,9 @@ export function transactionModeToBegin(mode: TransactionMode): string {
     } else if (mode === "deferred") {
         return "BEGIN DEFERRED";
     } else {
-        throw RangeError(`Unknown transaction mode, supported values are "write", "read" and "deferred"`);
+        throw RangeError(
+            `Unknown transaction mode, supported values are "write", "read" and "deferred"`,
+        );
     }
 }
 
@@ -387,7 +437,7 @@ export class ResultSetImpl implements ResultSet {
         public rows: Array<Row>,
         public rowsAffected: number,
         public lastInsertRowid: bigint | undefined,
-    ) { }
+    ) {}
 
     // deno-lint-ignore no-explicit-any
     toJSON(): any {
@@ -396,7 +446,9 @@ export class ResultSetImpl implements ResultSet {
             columnTypes: this.columnTypes,
             rows: this.rows.map(rowToJson),
             rowsAffected: this.rowsAffected,
-            lastInsertRowid: this.lastInsertRowid !== undefined ? "" + this.lastInsertRowid : null,
+            lastInsertRowid: this.lastInsertRowid !== undefined
+                ? "" + this.lastInsertRowid
+                : null,
         };
     }
 }

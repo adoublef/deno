@@ -7,12 +7,14 @@ export type Some<T extends unknown> = Transform<
     Array<Predicate<T>>,
     Predicate<T>
 >;
-export const some = <T extends unknown>(...fns: Predicate<T>[]): Predicate<T> =>
-    (b) => fns.some((fn) => fn(b));
+export const some =
+    <T extends unknown>(...fns: Predicate<T>[]): Predicate<T> => (b) =>
+        fns.some((fn) => fn(b));
 
 export type Every<T extends unknown> = Transform<
     Array<Predicate<T>>,
     Predicate<T>
 >;
-export const every = <T extends unknown>(fns: Predicate<T>[]): Predicate<T> =>
-    (b) => fns.every((fn) => fn(b));
+export const every =
+    <T extends unknown>(fns: Predicate<T>[]): Predicate<T> => (b) =>
+        fns.every((fn) => fn(b));
