@@ -1,4 +1,4 @@
-import { html, HtmlEscapedString } from "../deps.ts";
+import { html, HtmlEscapedString } from "./deps.ts";
 
 /** [TODO](https://www.solidjs.com/docs/latest/api#for) */
 export function For<T, U extends HtmlEscapedString>({
