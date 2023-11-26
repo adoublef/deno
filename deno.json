@@ -18,6 +18,6 @@
         "exclude": ["x/"]
     },
     "test": {
-        "exclude": ["x/", "libsql/"]
+        "exclude": ["x/", "database/libsql/"]
     }
 }
