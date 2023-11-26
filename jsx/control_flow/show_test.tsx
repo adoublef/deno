@@ -16,7 +16,7 @@ Deno.test("control_flow/for", async (t) => {
 
     await t.step("should render fallback", (t) => {
         const rs = (
-            <Show when={0} fallback={<div>1</div>}>
+            <Show when={"0"} fallback={<div>1</div>}>
                 {(n) => <div>{n}</div>}
             </Show>
         );
