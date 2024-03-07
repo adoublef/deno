@@ -1,4 +1,7 @@
 {
+    "name": "@adoublef/sdk",
+    "version": "0.1.0",
+    "exports": "./mod.ts",
     "tasks": {
         "www": "deno run -A cmd/www/main.ts",
         "cache": "deno cache deps.ts",
